@@ -7,11 +7,12 @@ WORKDIR /app
 COPY src/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY infra/docker/django/entrypoint.sh /
+COPY infra/docker/entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 
 COPY --chown=appuser:appuser src/ .
 
+RUN mkdir -p /app/sent_emails && chown appuser:appuser /app/sent_emails
 RUN mkdir -p /app/db && chown appuser:appuser /app/db
 
 USER appuser
