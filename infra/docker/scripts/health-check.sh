@@ -21,7 +21,7 @@ all_healthy=true
 for service in "${services[@]}"; do
 	name="${service%:*}"
 	endpoint="${service#*:}"
-	
+
 	if curl -s -f --connect-timeout 5 "http://localhost:${endpoint}" > /dev/null; then
 		echo "$name is healthy"
 	else
