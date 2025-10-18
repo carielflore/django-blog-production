@@ -48,4 +48,4 @@ deploy:
     - apk add --no-cache docker-compose
     - chmod +x ./infra/docker/scripts/deploy_alpine.sh
   script:
-    - sh ./infra/docker/scripts/deploy.sh
+    - sh ./infra/docker/scripts/deploy_alpine.sh
