@@ -47,5 +47,6 @@ deploy:
   before_script:
     - apk add --no-cache docker-compose
     - chmod +x ./infra/docker/scripts/deploy_alpine.sh
+    - chmod +x ./infra/docker/scripts/health-check_alpine.sh
   script:
     - sh ./infra/docker/scripts/deploy_alpine.sh
