@@ -5,7 +5,7 @@ RUN useradd --create-home --shell /bin/bash appuser
 WORKDIR /app
 
 COPY src/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --timeout=300 --retries=5 --no-cache-dir -r requirements.txt
 
 COPY infra/docker/entrypoint.sh /
 RUN chmod +x /entrypoint.sh
