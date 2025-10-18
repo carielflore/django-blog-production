@@ -40,9 +40,12 @@ deploy:
   stage: deploy
   image: docker:latest
   before_script:
+    - pwd
+    - ls -la ./infra/docker/scripts/deploy.sh
     - chmod +x ./infra/docker/scripts/deploy.sh
+    - cat ./infra/docker/scripts/deploy.sh
   script:
-    - cd infra/docker && ./scripts/deploy.sh
+    - sh ./infra/docker/scripts/deploy.sh
   environment:
     name: production
   only:
