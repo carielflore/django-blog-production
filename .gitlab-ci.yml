@@ -3,13 +3,20 @@ stages:
   - build
   - deploy
 
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_DRIVER: overlay2
+
 test:
   stage: test
   image: docker:latest
   services:
-    - docker:dind
+    - name: docker:dind
+      command: ["--tls=false"]
   before_script:
     - apk add --no-cache docker-compose
+    - docker info
   script:
     - cd infra/docker
     - docker-compose run django python manage.py test
@@ -18,9 +25,11 @@ build:
   stage: build
   image: docker:latest
   services:
-    - docker:dind
+    - name: docker:dind
+      command: ["--tls=false"]
   before_script:
     - apk add --no-cache docker-compose
+    - docker info
   script:
     - cd infra/docker
     - docker-compose build
