@@ -39,7 +39,7 @@ build:
 deploy:
   stage: deploy
   before_script:
-    - chmod +x ./scripts/deploy.sh
+    - chmod +x ./infra/docker/scripts/deploy.sh
   script:
     - cd infra/docker && ./scripts/deploy.sh
   environment:
