@@ -39,14 +39,13 @@ build:
 deploy:
   stage: deploy
   image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
   before_script:
-    - pwd
-    - ls -la ./infra/docker/scripts/deploy.sh
-    - chmod +x ./infra/docker/scripts/deploy.sh
-    - cat ./infra/docker/scripts/deploy.sh
+    - apk add --no-cache docker-compose
+    - chmod +x ./infra/docker/scripts/deploy_alpine.sh
   script:
     - sh ./infra/docker/scripts/deploy.sh
-  environment:
-    name: production
-  only:
-    - main
