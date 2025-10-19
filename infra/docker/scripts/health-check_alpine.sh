@@ -7,7 +7,7 @@ cd "$DOCKER_DIR"
 
 echo "Docker services health check:"
 
-services="django:8000/ nginx:80	/ prometheus:9090/-/healthy grafana:3000/api/health node_exporter:9100/metrics nginx_exporter:9113/metrics"
+services="django:8000/ nginx:80/ prometheus:9090/-/healthy grafana:3000/api/health node_exporter:9100/metrics nginx_exporter:9113/metrics"
 
 all_healthy=true
 
