@@ -20,7 +20,7 @@ docker-compose build --no-cache
 docker-compose up -d
 
 echo "Waiting for services to start..."
-sleep 15
+sleep 30
 
 echo "Running health checks..."
 "$SCRIPT_DIR/health-check_alpine.sh"
