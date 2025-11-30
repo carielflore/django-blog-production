@@ -1,5 +1,11 @@
 FROM python:3.12
 
+RUN apt-get update && apt-get install -y \
+    gcc \
+    python3-dev \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN useradd --create-home --shell /bin/bash appuser
 
 WORKDIR /app
@@ -11,9 +17,7 @@ COPY infra/docker/entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 
 COPY --chown=appuser:appuser src/ .
-
 RUN mkdir -p /app/sent_emails && chown appuser:appuser /app/sent_emails
-RUN mkdir -p /app/db && chown appuser:appuser /app/db
 
 USER appuser
 

@@ -1,19 +1,25 @@
 services:
+  postgres:
+    image: postgres:15-alpine
+    env_file:
+      - .env.staging
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   django:
     build:
       context: ../..
       dockerfile: infra/docker/Dockerfile
-    ports:
-      - "8000:8000"
     volumes:
-      - sqlite_data:/app/db
       - static_volume:/app/staticfiles
-    environment:
-      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
-      - DJANGO_DEBUG=${DJANGO_DEBUG}
-      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
     env_file:
-      - .env.production
+      - .env.staging
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "timeout 1 bash -c 'echo > /dev/tcp/localhost/8000' || exit 1"]
@@ -69,7 +75,7 @@ services:
     restart: unless-stopped
 
 volumes:
-  sqlite_data:
+  postgres_data:
   static_volume:
   prom_data:
   grafana_data:

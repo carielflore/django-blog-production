@@ -27,3 +27,4 @@ beautifulsoup4==4.11.2
 django-prometheus
 psutil
 gunicorn
+psycopg2-binary==2.9.7
