@@ -1,0 +1,13 @@
+---
+- name: reload nginx
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_dir }}"
+    services: nginx
+    state: restarted
+  when: "'nginx' in ansible_facts.services"
+
+- name: reload django services
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_dir }}"
+    services: django
+    state: restarted

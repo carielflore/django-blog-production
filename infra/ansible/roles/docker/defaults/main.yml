@@ -1,0 +1,6 @@
+---
+docker_compose_version: "v2.24.5"
+
+install_docker_compose_standalone: false
+
+docker_user: "{{ deploy_user }}"

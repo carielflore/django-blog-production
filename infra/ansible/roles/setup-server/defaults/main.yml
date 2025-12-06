@@ -1,0 +1,18 @@
+---
+system_packages:
+  - curl
+  - wget
+  - git
+  - nano
+  - htop
+  - ufw
+  - python3-pip
+  - software-properties-common
+  - apt-transport-https
+  - ca-certificates
+  - gnupg-agent
+
+timezone: "Europe/Moscow"
+
+deploy_user: "deploy"
+deploy_group: "deploy"

@@ -1,0 +1,54 @@
+---
+- name: Check if Docker already installed
+  stat:
+    path: /usr/bin/docker
+  register: docker_installed
+  changed_when: false
+
+- name: Install Docker dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - ca-certificates
+    - curl
+    - gnupg
+  when: not docker_installed.stat.exists
+
+- name: Download and run Docker installation script
+  shell: |
+    curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+    sh /tmp/get-docker.sh
+
+    rm -f /tmp/get-docker.sh
+  when: not docker_installed.stat.exists
+
+- name: Ensure Docker service is running
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add users to docker group
+  user:
+    name: "{{ docker_user }}"
+    groups: docker
+    append: yes
+
+- name: Verify Docker installation
+  command: docker --version
+  register: docker_version
+  changed_when: false
+
+- name: Display Docker version
+  debug:
+    msg: "Docker version: {{ docker_version.stdout }}"
+
+- name: Verify Docker Compose plugin
+  command: docker compose version
+  register: docker_compose_version
+  changed_when: false
+
+- name: Display Docker Compose version
+  debug:
+    msg: "Docker Compose version: {{ docker_compose_version.stdout }}"

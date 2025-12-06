@@ -1,0 +1,9 @@
+app_name: "django-blog"
+app_dir: "/opt/{{ app_name }}"
+
+env_file: ".env.staging"
+
+django_static_dir: "/app/staticfiles"
+django_media_dir: "/app/media"
+
+restart_policy: "unless-stopped"

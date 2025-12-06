@@ -1,0 +1,9 @@
+---
+- name: Deploy Django Blog to Staging Environment
+  hosts: staging
+  become: yes
+
+  roles:
+    - setup-server
+    - docker
+    - app
