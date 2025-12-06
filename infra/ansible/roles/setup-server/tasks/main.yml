@@ -1,0 +1,58 @@
+---
+- name: Update apt package cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Upgrade all packages
+  apt:
+    upgrade: dist
+    autoremove: yes
+
+- name: Install system packages
+  apt:
+    name: "{{ system_packages }}"
+    state: present
+
+- name: Create deploy user
+  user:
+    name: "{{ deploy_user }}"
+    state: present
+    groups: sudo
+    append: yes
+    shell: /bin/bash
+    create_home: yes
+
+- name: Add SSH key for deploy user
+  authorized_key:
+    user: "{{ deploy_user }}"
+    state: present
+    key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
+
+- name: Setup SSH directory permissions
+  file:
+    path: "/home/{{ deploy_user }}/.ssh"
+    state: directory
+    mode: '0700'
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_group }}"
+
+- name: Configure timezone
+  timezone:
+    name: "{{ timezone }}"
+
+- name: Setup basic firewall
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - 22
+    - 80
+    - 443
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+    policy: deny
+

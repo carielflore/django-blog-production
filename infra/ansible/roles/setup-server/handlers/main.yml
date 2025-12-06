@@ -1,0 +1,9 @@
+---
+- name: restart ssh
+  service:
+    name: ssh
+    state: restarted
+
+- name: reload ufw
+  command: ufw reload
+
